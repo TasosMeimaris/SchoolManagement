@@ -51,6 +51,50 @@
 </div>
 
 <hr>
+<h1 class="panel=heading">All Courses</h1>
+<form th:action="@{/showCreateCourse}">
+    <input type="hidden" />
+    <button class="btn btn-success btn-lg" type="submit">Create Course</button>
+</form>
+<!--
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>Title</th>
+        <th>Tutor</th>
+        <th>Students</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="course : ${courses}">
+
+        <td th:text="${course.title}" />
+        <td th:text="Tutors Name Here" />
+        <td th:text="number of students" />
+
+        <td>
+
+            <div class="row">
+                <div class="col-small">
+                    <button class="btn btn-warning btn-lg" type="submit">Add Course to User</button>
+
+                   <a th:href="@{/courses/delete(courseId=${course.id})}"
+                        class="btn btn-danger btn-lg"
+                        onclick="if(!(confirm('Are you sure?'))) return false ">
+                        Delete
+                    </a>
+
+                </div>
+            </div>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+-->
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -62,7 +106,27 @@
                 <ul class="list-group">
                     <li  class="list-group-item" th:each="course : ${courses}">
                         <span th:text="${course.title}"></span>
-                        <a class="btn btn-warning btn-lg" href="#" role="button">Add Course</a>
+                        <form th:action="@{/add-course}" method="post">
+                            <input type="hidden" name="userId" th:value="${session.user.id}" /> <!-- Use the logged-in user's ID -->
+                            <input type="hidden" name="courseId" th:value="${course.id}" /> <!-- Use the current course's ID -->
+                            <button class="btn btn-warning btn-lg" type="submit">Add Course to User</button>
+                        </form>
+                        <a th:href="@{/courses/delete(courseId=${course.id})}"
+                           class="btn btn-danger btn-lg"
+                           onclick="if(!(confirm('Are you sure?'))) return false ">
+                            Delete
+                        </a>
+                        <script>
+                            $(document).ready(function() {
+                                $('#addCourseForm').submit(function(e) {
+                                    e.preventDefault();
+                                    $.post("/courses/add", $(this).serialize(), function() {
+                                        window.location.reload(true);
+                                    });
+                                });
+                            });
+                        </script>
+
                         <!-- Display other properties of the course as needed -->
                     </li>
                 </ul>
@@ -71,11 +135,11 @@
             <div class="border border-light">
                 <h1 class="panel=heading">Your Courses</h1>
                 <ul class="list-group">
-                    <li  class="list-group-item" th:each="course : ${courses}">
+                    <li class="list-group-item" th:each="course : ${userCourses}">
                         <span th:text="${course.title}"></span>
-                        <form th:action="@{/courses/delete}" th:object="${course}" method="post">
-                            <input type="hidden" name="id" th:value="${course.id}" />
-                            <button class="btn btn-danger btn-lg" type="submit">Delete Course</button>
+                        <form th:action="@{/courses/remove}" th:object="${course}" method="post">
+                            <input type="hidden" name="courseId" th:value="${course.id}" />
+                            <button class="btn btn-secondary btn-lg" type="submit">Remove Course</button>
                         </form>
                         <!-- Display other properties of the course as needed -->
                     </li>
@@ -91,7 +155,7 @@
 <form action="#" th:action="@{/logout}"
       method="POST">
 
-    <input  type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+    <input  type="submit" value="Logout" class="btn btn-outline-danger mt-2" />
 
 </form>
 </body>

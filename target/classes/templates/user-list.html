@@ -1,22 +1,19 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>luv2code SYSTEMS Home Page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>Employee Directory</title>
 </head>
+
 <body>
 
-<h2>luv2code SYSTEMS Home Page</h2>
-
-<hr>
-
-<p>
-  We have annual holiday Caribbean cruise coming up. Register now!
-  <br>
-  Keep this trip a secret, don't tell the regular employees LOL :-)
-</p>
-
-<hr>
 <div class="container">
 
     <h3>Employee Directory</h3>
@@ -39,11 +36,11 @@
         </thead>
 
         <tbody>
-        <tr th:each="tempUser : ${user}">
+        <tr th:each="tempEmployee : ${users}">
 
-            <td th:text="${tempUser.firstName}" />
-            <td th:text="${tempUser.lastName}" />
-            <td th:text="${tempUser.email}" />
+            <td th:text="${tempEmployee.firstName}" />
+            <td th:text="${tempEmployee.lastName}" />
+            <td th:text="${tempEmployee.email}" />
 
             <td>
                 <div class="row">
@@ -52,15 +49,15 @@
                         <!-- Add "update" button/link -->
                         <form action="#" th:action="@{/employees/showFormForUpdate}" method="POST">
 
-                            <input type="hidden" name="employeeId" th:value="${tempUser.id}" />
+                            <input type="hidden" name="employeeId" th:value="${tempEmployee.id}" />
                             <button type="submit" class="btn btn-info btn-sm me-1" style="float:left;">Update</button>
 
                         </form>
 
                         <!-- Add "delete" button/link -->
-                        <form action="#" th:action="@{/employees/delete}" method="POST">
+                        <form action="#" th:action="@{/users/delete}" method="POST">
 
-                            <input type="hidden" name="employeeId" th:value="${tempUser.id}" />
+                            <input type="hidden" name="employeeId" th:value="${tempEmployee.id}" />
                             <button type="submit" class="btn btn-danger btn-sm"
                                     onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">
                                 Delete
@@ -77,17 +74,6 @@
     </table>
 
 </div>
-<hr>
-
-<a th:href="@{/}">Back to Home Page</a>
 
 </body>
 </html>
-
-
-
-
-
-
-
-

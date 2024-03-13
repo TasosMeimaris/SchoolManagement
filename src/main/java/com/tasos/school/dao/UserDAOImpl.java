@@ -42,5 +42,10 @@ public class UserDAOImpl implements UserDAO {
         entityManager.merge(theUser);
     }
 
+    @Override
+    public int findIdByUsername(String username) {
+        return 0;
+    }
+
 
 }
